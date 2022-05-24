@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Listmaker</string>
+    <string name="action_settings">Settings</string>
+    <string name="create">Create</string>
+    <string name="name_of_list">What is the name of your list?</string>
+    <string name="enter_task_item">Enter Task Item</string>
+</resources>
