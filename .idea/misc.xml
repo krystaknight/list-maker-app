@@ -7,6 +7,8 @@
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.184375" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_todo_list.xml" value="0.10152284263959391" />
         <entry key="app/src/main/res/layout/task_list_view_holder.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/todo_list_view_holder.xml" value="0.18333333333333332" />
       </map>

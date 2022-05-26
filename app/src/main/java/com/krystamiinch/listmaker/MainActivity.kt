@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),TodoListAdapter.TodoListClickListener, TodoListAdapter.DeleteClickListener {
+class MainActivity : AppCompatActivity(), TodoListFragment.OnFragmentInteractionListener {
 
-    private lateinit var todoListRecyclerView: RecyclerView
-    private val listDataManager:ListDataManager = ListDataManager(this)
+    private var todoListFragment = TodoListFragment.newInstance()
+
     companion object{
         const val INTENT_LIST_KEY = "List"
     }
@@ -27,15 +27,13 @@ class MainActivity : AppCompatActivity(),TodoListAdapter.TodoListClickListener, 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val list = listDataManager.readLists()
-
-        todoListRecyclerView = findViewById(R.id.lists_recyclerview)
-        todoListRecyclerView.layoutManager = LinearLayoutManager(this)
-        todoListRecyclerView.adapter = TodoListAdapter(list, this, this)
-
         fab.setOnClickListener { _ ->
             showCreateTodoListDialog()
         }
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container,todoListFragment)
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,13 +63,10 @@ class MainActivity : AppCompatActivity(),TodoListAdapter.TodoListClickListener, 
         myDialog.setTitle(dialogTitle)
         myDialog.setView(todoTitleEditText)
 
-
         myDialog.setPositiveButton(positiveTitle){
             dialog, _ ->
-            val adapter = todoListRecyclerView.adapter as TodoListAdapter
             val list = TaskList(todoTitleEditText.text.toString())
-            listDataManager.saveList(list)
-            adapter.addList(list)
+            todoListFragment.addList(list)
             dialog.dismiss()
             showTaskListItems(list)
         }
@@ -79,17 +74,19 @@ class MainActivity : AppCompatActivity(),TodoListAdapter.TodoListClickListener, 
     }
 
     private fun showTaskListItems(list: TaskList){
-        val taskListItem = Intent(this,DetailActivity::class.java)
-        taskListItem.putExtra(INTENT_LIST_KEY, list)
-        startActivity(taskListItem)
+        val bundle = Bundle()
+        bundle.putParcelable(INTENT_LIST_KEY, list)
+        val detailFrag  = DetailFragment.newInstance()
+        detailFrag.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container,detailFrag)
+            .commit()
+        fab.hide()
     }
 
-    override fun listItemClicked(list: TaskList) {
+    override fun onTodoListClicked(list: TaskList) {
         showTaskListItems(list)
     }
 
-    override fun deleteTaskList(listName: String) {
-        listDataManager.deleteToDoList(listName)
-    }
 
 }
