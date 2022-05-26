@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), TodoListFragment.OnFragmentInteraction
             .commit()
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity(), TodoListFragment.OnFragmentInteraction
         detailFrag.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container,detailFrag)
+            .addToBackStack(null)
             .commit()
         fab.hide()
     }
